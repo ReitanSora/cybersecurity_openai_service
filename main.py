@@ -20,7 +20,7 @@ def create_App():
         problem = data['problem']
         items = {}
 
-        prompt = (f'Vas a generar 10 pasos a realizar según un plan de continuidad del negocio (BCP), 5 de estos van a ser correctos y los otros 5 van a ser incorrectos, haz de realizar esto basado en el problema: {problem}, solamente dame los títulos de cada actividad a realizar y sin enumerar')
+        prompt = (f'Vas a generar 20 pasos a realizar según un plan de continuidad del negocio (BCP), 10 de estos van a ser correctos y los otros 10 van a ser incorrectos, haz de realizar esto basado en el problema: {problem}, solamente dame los títulos de cada actividad a realizar y sin enumerar')
         response = openai.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[
