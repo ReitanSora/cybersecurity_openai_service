@@ -2,14 +2,15 @@ import openai
 from openai import OpenAI
 from flask import Flask, request, jsonify
 from decouple import config
+from flask_cors import CORS, cross_origin
 
 def create_App():
     app = Flask(__name__)
-    
-    
+    CORS(app)
+        
     openai = OpenAI(api_key = config('OPENAI_API_KEY'))
 
-
+    @cross_origin
     @app.route('/generador', methods=['POST'])
     def generar_causas():
         data = request.get_json()
