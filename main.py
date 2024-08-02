@@ -54,6 +54,7 @@ def create_App():
 
         items_correct = data['correct']
         responses = data['responses']
+        result = {}
 
         prompt = (f'Las acciones del usuario son: {responses}\nLas respuestas correctas son: {items_correct}')
         response = openai.chat.completions.create(
@@ -65,8 +66,9 @@ def create_App():
             temperature=0,
             max_tokens=500,
         )
+        result = response.choices[0].message.content
 
-        return response.choices[0].message.content
+        return result
     
     return app
 
