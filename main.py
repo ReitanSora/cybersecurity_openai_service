@@ -66,7 +66,7 @@ def create_App():
             temperature=0,
             max_tokens=500,
         )
-        result = response.choices[0].message.content
+        result['calification'] = response.choices[0].message.content
 
         return result
     
