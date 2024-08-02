@@ -25,7 +25,7 @@ def create_App():
         response = openai.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[
-                {"role": "system", "content": "Eres un experto en ciberseguridad y realizas un análisis BCA basado en el método KJ."},
+                {"role": "system", "content": "Eres un experto en ciberseguridad y realizas un análisis Bussiness Continuity Plan basado en el método KJ."},
                 {"role": "user", "content": prompt}
             ],
             temperature=0,
@@ -46,6 +46,27 @@ def create_App():
         items['incorrect'] = items_aux[1]
 
         return items
+    
+    @cross_origin
+    @app.route('/calificador', methods=['POST'])
+    def calificar():
+        data = request.get_json()
+
+        items_correct = data['correct']
+        responses = data['responses']
+
+        prompt = (f'Las acciones del usuario son: {responses}\nLas respuestas correctas son: {items_correct}')
+        response = openai.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": " Eres un evaluador, vas a calificar sobre un punto las acciones correctas tomadas por el usuario, comparándolas con las respuestas correctas, se te debe enviar diez acciones correctas para una calificación de 10, caso contrario la calificación baja en 1 punto por cada respuesta faltante(ejemplo: Acciones del usuario=['Realizar backups', 'Comunicar a los clientes']; calificación máxima=2) y además si la acción del usuario no coincide con ninguna respuesta correcta o carece de sentido, no sumaría ningún punto adicional (ejemplo: Acciones del usuario=['Realizar backups', 'Ver como va']; calificación = 1)"},
+                {"role": "user", "content": prompt}
+            ],
+            temperature=0,
+            max_tokens=500,
+        )
+
+        return response.choices[0].message.content
     
     return app
 
